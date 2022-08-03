@@ -9,7 +9,7 @@
           <button>+ New Document</button>
           <div class="document_list">
             <div>
-              <span class="document_date">April 5, 20200</span>
+              <span class="document_date">April 5, 2022</span>
               <span class="document_name">README</span>
             </div>
           </div>
@@ -64,6 +64,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
 :root{
 
     --color-100: #fff;
@@ -80,13 +81,14 @@ export default {
     --accent-light: #f39765;
     --font-primary: "Roboto",sans-serif;
     --font-secondary: "Roboto Slab",monospace;
-    --sidebar-transition: 0.3s cubic-bezier(0.165,0.84,0.44,1);
+    --sidebar-transition: 0.5s cubic-bezier(0.165,0.84,0.44,1);
 }
 
 *{
   padding:0;
   margin:0;
-  box-sizing:border-box
+  box-sizing:border-box;
+  font-family: 'Roboto Slab', serif;
 }
 
 #page{
@@ -95,7 +97,8 @@ export default {
 }
 
 .main{
-  position:relative
+  position:relative;
+  transition: var(--sidebar-transition)
 }
 
 nav{
@@ -108,14 +111,55 @@ nav{
 
 nav > div {
   display:flex;
+  align-items: center;
+  gap:2rem;
 }
 
 .logo.desktop{
   display:none;
 }
 
+.right_side_nav{
+  margin:0 1rem
+}
+
+.delete{
+  height:45px;
+  width:45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:50%;
+}
+
+.delete:hover{
+  background:var(--color-900)
+}
+
+.save{
+  background: var(--accent);
+  color:var(--color-100);
+  padding:0.8rem 1.2rem;
+  border-radius: 5px;
+  display:flex;
+  gap:10px;
+}
+
+.save:hover{
+  background: var(--accent-light);
+}
+
 .save>span{
   display:none;
+}
+
+.sidebar_toggle{
+  background: var(--color-700);
+  height:60px;
+  width:60px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .editor_tabs{
@@ -128,12 +172,14 @@ nav > div {
 
 .sidebar{
   background:var(--color-900);
+  padding:1rem 1.5rem;
   position:absolute;
   top:0;
   left:0;
   bottom:0;
-  width:250px;
-  transform:translateX(-250px)
+  width:270px;
+  transform:translateX(-270px);
+  transition:var(--sidebar-transition);
 }
 
 .sidebar.open{
@@ -141,16 +187,79 @@ nav > div {
 }
 
 .sidebar.open + .main{
-  transform: translateX(250px);
+  transform: translateX(270px);
 }
 
+.logo.mobile{
+  padding:1rem 0;
+}
+
+.documents h3{
+  color: var(--color-500);
+  font-weight: 500;
+  font-size:14px;
+  letter-spacing: 2px;
+  margin-bottom:1rem;
+}
+
+.documents button {
+  color:var(--color-100);
+  background-color: var(--accent);
+  border:none;
+  border-radius:5px;
+  width:100%;
+  padding:1rem;
+}
+
+.documents button:hover{
+  background: var(--accent-light);
+}
+
+.document_list{
+  padding:1.2rem 0;
+}
+
+.document_list > div{
+  display:flex;
+  flex-direction: column;
+  width:100%;
+  padding:1rem;
+  border:1px solid gray;
+  align-items:center
+}
+
+.document_date{
+  color: var(--color-500);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 15px;
+}
+
+.document_name{
+  color:var(--color-100);
+  font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    max-height: 18px;
+    word-break: break-all;
+}
 @media (min-width: 1024px){
   .logo.desktop{
     display:block;
   }
 
+  .logo.mobile{
+    display:none;
+  }
+
+  .documents h3{
+    font-size:0.9rem;
+    padding:1rem 0;
+  }
+
   .save>span{
     display:block
   }
+
 }
 </style>
