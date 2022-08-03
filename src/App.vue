@@ -1,19 +1,19 @@
 <template>
   <div id="page">
     <div class="sidebar" :class="{open: !isClosed}">
-        <div class="logo mobile">
-          <img src="./assets/logo.svg" alt=""/>
-        </div>
-        <div class="documents">
-          <h3>MY DOCUMENTS</h3>
-          <button>+ New Document</button>
-          <div class="document_list">
-            <div>
-              <span class="document_date">April 5, 2022</span>
-              <span class="document_name">README</span>
-            </div>
+      <div class="logo mobile">
+        <img src="./assets/logo.svg" alt="" />
+      </div>
+      <div class="documents">
+        <h3>MY DOCUMENTS</h3>
+        <button>+ New Document</button>
+        <div class="document_list">
+          <div>
+            <span class="document_date">April 5, 2022</span>
+            <span class="document_name">README</span>
           </div>
         </div>
+      </div>
     </div>
     <div class="main">
       <nav>
@@ -23,7 +23,13 @@
             <img src="./assets/icon-close.svg" alt="" v-else>
           </div>
           <div class="logo desktop"><img src="./assets/logo.svg" alt=""></div>
-          <div class="document_name"></div>
+          <div class="document_name">
+            <img src="./assets/icon-document.svg" alt="">
+            <div class="name_input_field">
+              <label for="documentName">Document Name</label>
+              <input id="documentName" v-model="documentName" />
+            </div>
+          </div>
         </div>
         <div class="right_side_nav">
           <div class="delete"><img src="./assets/icon-delete.svg" alt=""></div>
@@ -35,10 +41,14 @@
       </nav>
 
       <div class="editor_tabs">
-        <MarkdownInput />
-        <PreviewComponent />
+        <div class="showToggle" @click="showPreview = !showPreview">
+          <img v-if="!showPreview" src="./assets/icon-show-preview.svg" alt="">
+          <img v-else src="./assets/icon-hide-preview.svg" alt="">
+        </div>
+        <MarkdownInput :show="showPreview" />
+        <PreviewComponent :show="showPreview" />
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -53,10 +63,14 @@ export default {
     MarkdownInput
   },
   setup(){
-    const isClosed = ref(true)
+    const isClosed = ref(true);
+    const showPreview = ref(false);
+    const documentName = ref("New Document");
 
     return{
-      isClosed
+      isClosed,
+      documentName,
+      showPreview
     }
   }
   
@@ -65,6 +79,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
 :root{
 
     --color-100: #fff;
@@ -88,7 +103,7 @@ export default {
   padding:0;
   margin:0;
   box-sizing:border-box;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #page{
@@ -112,7 +127,7 @@ nav{
 nav > div {
   display:flex;
   align-items: center;
-  gap:2rem;
+  gap:1.5rem;
 }
 
 .logo.desktop{
@@ -120,7 +135,8 @@ nav > div {
 }
 
 .right_side_nav{
-  margin:0 1rem
+  margin:0 1rem;
+  gap:0.2rem;
 }
 
 .delete{
@@ -164,6 +180,14 @@ nav > div {
 
 .editor_tabs{
   display:flex;
+  position: relative;
+}
+
+.showToggle{
+  position: absolute;
+  right:20px;
+  width:auto !important;
+  top:10px;
 }
 
 .editor_tabs > * {
@@ -237,11 +261,40 @@ nav > div {
 
 .document_name{
   color:var(--color-100);
-  font-size: 15px;
-    font-weight: 400;
-    line-height: 18px;
-    max-height: 18px;
-    word-break: break-all;
+  font-weight: 400;
+  line-height: 18px;
+  max-height: 18px;
+  word-break: break-all;
+  display:flex;
+  align-items: center;
+  gap:1rem;
+}
+
+.name_input_field label{
+  color: rgb(124, 129, 135);
+  display: none;
+  font-family: Roboto;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 15px;
+}
+
+.name_input_field input{
+  background: transparent;
+  border:none;
+  outline:none;
+  width:100px;
+  color:var(--color-100);
+  font-size:14px;
+}
+
+.document_name input:hover{
+  border-bottom:1px solid var(--color-100)
+}
+
+.document_name input:focus{
+  border-bottom:1px solid var(--accent);
 }
 @media (min-width: 1024px){
   .logo.desktop{
@@ -250,6 +303,10 @@ nav > div {
 
   .logo.mobile{
     display:none;
+  }
+
+  .right_side_nav{
+    gap:0.5rem;
   }
 
   .documents h3{
@@ -261,5 +318,25 @@ nav > div {
     display:block
   }
 
+  .document_name{
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  max-height: 18px;
+  gap:1rem;
+}
+
+.name_input_field label{
+  font-size: 13px;
+}
+
+.name_input_field input{
+  width:200px;
+  font-size:1rem;
+}
+
+  .name_input_field label{
+    display: block;
+  }
 }
 </style>
