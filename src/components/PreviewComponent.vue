@@ -73,7 +73,11 @@ export default {
 }
 
 .previewer >>> p{
-    color:var(--color-500)
+    color:var(--color-500);
+    padding:1rem 0;
+    line-height: 24px;
+    font-weight: 300;
+    font-size: 14px;
 }
 
 .previewer>>> *::marker{
@@ -90,6 +94,32 @@ export default {
     font-size: 14px;
     font-weight:300;
     margin-bottom:0.6rem;
+}
+
+.previewer >>>blockquote p{
+    border-radius: 4px;
+    color: var(--color-700);
+    padding: 24px;
+    background: var(--color-200);
+    border-left: 4px solid var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    margin: 1.5rem 0;
+}
+
+.previewer >>> blockquote a{
+    color:inherit
+}
+
+.previewer >>> pre{
+    background-color: var(--color-200);
+    padding:24px;
+    border-radius:4px;
+}
+
+.previewer >>> pre code{
+    font-family: monospace;
 }
 
 .previewer::-webkit-scrollbar {
