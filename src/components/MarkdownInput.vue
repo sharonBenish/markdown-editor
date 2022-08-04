@@ -50,7 +50,7 @@ textarea{
     outline: none;
     border:none;
     width:100%;
-    height:calc(100vh - 60px - 40px);
+    min-height:calc(100vh - 60px - 40px);
     padding:1rem 2rem;
     background: var(--color-100);
     border-right: 1px solid var(--color-300);
@@ -58,5 +58,14 @@ textarea{
     line-height: 24px;
     color:var(--color-700);
     font-family: var(--font-secondary);
+}
+textarea::-webkit-scrollbar {
+  width: 0.4rem;
+  
+}
+ 
+textarea::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 10px;
 }
 </style>

@@ -107,6 +107,7 @@ export default {
 }
 
 #page{
+  min-height:100vh;
   overflow: hidden;
   position: relative;
 }

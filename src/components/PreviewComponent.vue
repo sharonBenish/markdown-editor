@@ -46,36 +46,60 @@ export default {
 .previewer{
     width:100%;
     height:calc(100vh - 60px - 40px);
+    overflow: scroll;
     padding:1rem 2rem;
     font-family: var(--font-secondary);
 }
 
-.previewer h2{
+.previewer>>>h1{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 42px;
+    margin-bottom: 1.3rem;
+}
+
+.previewer >>> h2{
     font-size: 28px;
     font-weight: 300;
     line-height: 37px;
+    margin-bottom:1.2rem;
 }
 
-.previewer ol{
+.previewer >>>h3{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 1rem;
+}
+
+.previewer >>> p{
+    color:var(--color-500)
+}
+
+.previewer>>> *::marker{
+    color:var(--accent);
+    font-weight: 700;
+}
+
+.previewer >>> ol, .previewer >>> ul{
     padding-left:24px;
 }
 
-ol {
-    list-style: none; 
-    /*counter-reset: li*/
+.previewer >>> li{
+    list-style-position: inside;
+    font-size: 14px;
+    font-weight:300;
+    margin-bottom:0.6rem;
 }
 
-li::marker{
-    color:red;
+.previewer::-webkit-scrollbar {
+  width: 0.5rem;
 }
-/*ol li::before {
-    content: counter(li); 
-    color: red;
-    display: inline-block; 
-    width: 1em;
-    margin-left: -1em
+ 
+.previewer::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 20px;
 }
-ol li {counter-increment: li}*/
 
 @media (min-width:1024px){
   #preview.hideMode{
