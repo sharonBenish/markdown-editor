@@ -1,32 +1,44 @@
 <template>
-  <div id="editor" :class="{showMode:!show, hideMode: show}">
+  <div id="editor" :class="{showMode:!show, hideMode: show, darkMode: !lightMode}">
     <div class="editor-header">MARKDOWN</div>
     <textarea v-model="markdownInput" @input="setCurrentDocument"></textarea>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 export default {
     props:['show'],
     setup(){
-        const store = useStore()
+        const store = useStore();
+        const lightMode = computed(()=> store.state.lightMode)
         const markdownInput = ref('')
         function setCurrentDocument(){
-            console.log(markdownInput.value)
-            store.commit('SET_CURRENT_DOCUMENT', markdownInput.value)
+          store.commit('SET_CURRENT_DOCUMENT', markdownInput.value)
         }
 
         return{
             markdownInput,
-            setCurrentDocument
+            setCurrentDocument,
+            lightMode
         }
     }
 }
 </script>
 
 <style scoped>
+#editor.darkMode >textarea{
+  background:var(--color-1000);
+  color:var(--color-400);
+  border-right: 1px solid var(--color-600);
+}
+
+#editor.darkMode > .editor-header{
+  background-color: var(--color-900);
+  color: var(--color-400);
+}
+
 #editor.showMode{
     width:100%;
 }

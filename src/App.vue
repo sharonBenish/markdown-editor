@@ -71,9 +71,8 @@ export default {
   box-sizing:border-box;
   font-family: 'Roboto', sans-serif;
 }
-
 #page{
-  min-height:100vh;
+  height:100vh;
   overflow: hidden;
   position: relative;
 }

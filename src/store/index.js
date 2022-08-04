@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    lightMode:true,
     documents:[],
     currentDocument:{
       name:"",
@@ -18,6 +19,9 @@ export default createStore({
   mutations: {
     SET_CURRENT_DOCUMENT(state,payload){
       state.currentDocument.content = payload
+    },
+    toggleDarkMode(state){
+      state.lightMode = !state.lightMode
     }
   },
   actions: {

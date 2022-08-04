@@ -1,5 +1,5 @@
 <template>
-  <div id="preview" :class="{showMode: show, hideMode: !show}">
+  <div id="preview" :class="{showMode: show, hideMode: !show, darkMode: !lightMode}">
     <div class="previewer-header">PREVIEW</div>
     <div class="previewer" v-html="preview"></div>
   </div>
@@ -13,18 +13,42 @@ export default {
     props:['show'],
     setup(){
         const store= useStore()
+        const lightMode = computed(()=> store.state.lightMode)
         const preview = computed(()=>{
             return marked.parse(store.getters.GetCurrentDocument.content)
         })
         
         return{
-            preview
+            preview,
+            lightMode
         }
     }
 }
 </script>
 
 <style scoped>
+#preview.darkMode > .previewer{
+  background:var(--color-1000) ;
+}
+
+#preview.darkMode > .previewer >>> h1, 
+#preview.darkMode > .previewer >>> h2,
+#preview.darkMode > .previewer >>> h3 , 
+#preview.darkMode > .previewer >>> h4,
+#preview.darkMode > .previewer >>> h5,
+#preview.darkMode > .previewer >>> h6{
+    color:var(--color-100);
+}
+
+#preview.darkMode > .previewer >>> *:not(p){
+    color:var(--color-400);
+}
+
+
+#preview.darkMode > .previewer-header{
+  background-color: var(--color-900);
+  color: var(--color-400);
+}
 #preview.hideMode{
     display:none;
 }
@@ -112,10 +136,23 @@ export default {
     color:inherit
 }
 
+#preview.darkMode >.previewer >>> blockquote a{
+    color:inherit
+}
+#preview.darkMode >.previewer >>> blockquote p{
+    background-color: var(--color-800);
+    color: var(--color-100);
+}
+
 .previewer >>> pre{
     background-color: var(--color-200);
     padding:24px;
     border-radius:4px;
+}
+
+#preview.darkMode >.previewer >>> pre{
+    background-color: var(--color-800);
+    color: var(--color-100);
 }
 
 .previewer >>> pre code{
@@ -129,6 +166,10 @@ export default {
 .previewer::-webkit-scrollbar-thumb {
   background-color: var(--accent);
   border-radius: 20px;
+}
+
+.previewer::-webkit-scrollbar-corner {
+    background: inherit;
 }
 
 @media (min-width:1024px){
