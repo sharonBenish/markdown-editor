@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="right_side_nav">
-          <div class="delete"><img src="../assets/icon-delete.svg" alt=""></div>
+          <div class="delete" @click="$emit('deleteClicked')"><img src="../assets/icon-delete.svg" alt=""></div>
           <div class="save">
             <img src="../assets/icon-save.svg" alt="">
             <span>Save Changes</span>

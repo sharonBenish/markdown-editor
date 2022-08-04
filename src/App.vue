@@ -2,7 +2,7 @@
   <div id="page">
     <SideBar :isClosed="isClosed" />
     <div class="main">
-      <HeaderNav :isClosed="isClosed" @clicked="isClosed = !isClosed"/>
+      <HeaderNav :isClosed="isClosed" @clicked="isClosed = !isClosed" @deleteClicked="showDeleteModal = !showDeleteModal" />
 
       <div class="editor_tabs">
         <div class="showToggle" @click="showPreview = !showPreview">
@@ -13,6 +13,7 @@
         <PreviewComponent :show="showPreview" />
       </div>
     </div>
+    <DeleteModal :showDeleteModal="showDeleteModal" @closeDeleteModal="showDeleteModal = !showDeleteModal" />
   </div>
 </template>
 
@@ -22,21 +23,25 @@ import MarkdownInput from "./components/MarkdownInput.vue";
 import { ref } from '@vue/reactivity';
 import HeaderNav from "./components/HeaderNav.vue";
 import SideBar from "./components/SideBar.vue";
+import DeleteModal from "./components/DeleteModal.vue";
 export default {
   name: 'App',
   components: {
     PreviewComponent,
     MarkdownInput,
     HeaderNav,
-    SideBar
+    SideBar,
+    DeleteModal
 },
   setup(){
     const isClosed = ref(true);
     const showPreview = ref(false);
+    const showDeleteModal = ref(false);
 
     return{
       isClosed,
       showPreview,
+      showDeleteModal
     }
   }
   
