@@ -16,9 +16,15 @@
         </div>
         <div class="right_side_nav">
           <div class="delete" @click="$emit('deleteClicked')"><img src="../assets/icon-delete.svg" alt=""></div>
-          <div class="save">
-            <img src="../assets/icon-save.svg" alt="">
-            <span>Save Changes</span>
+          <div class="save" @click="$emit('saveClicked')">
+            <div v-if="!showSavedModal">
+              <img src="../assets/icon-save.svg" alt="">
+              <span>Save Changes</span>
+            </div>
+            <div v-else>
+              <img src="../assets/icon-check.svg" alt="">
+              <span>Changes Saved</span>
+            </div>
           </div>
         </div>
     </nav>
@@ -27,7 +33,7 @@
 <script>
 import { ref } from 'vue';
 export default {
-    props:['isClosed'],
+    props:['isClosed', 'showSavedModal'],
     setup(){
     const documentName = ref("New Document");
 
@@ -85,7 +91,7 @@ nav > div {
   background:var(--color-900)
 }
 
-.save{
+.save>div{
   background: var(--accent);
   color:var(--color-100);
   padding:0.8rem 1.2rem;
@@ -94,11 +100,11 @@ nav > div {
   gap:10px;
 }
 
-.save:hover{
+.save> div:hover{
   background: var(--accent-light);
 }
 
-.save>span{
+.save> div >span{
   display:none;
 }
 
@@ -146,7 +152,7 @@ nav > div {
     .right_side_nav{
         gap:0.5rem;
     }
-    .save>span{
+    .save>div >span{
     display:block
   }
 

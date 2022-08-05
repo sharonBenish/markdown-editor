@@ -2,7 +2,7 @@
   <div id="page">
     <SideBar :isClosed="isClosed" />
     <div class="main">
-      <HeaderNav :isClosed="isClosed" @clicked="isClosed = !isClosed" @deleteClicked="showDeleteModal = !showDeleteModal" />
+      <HeaderNav :isClosed="isClosed" @clicked="isClosed = !isClosed" @deleteClicked="showDeleteModal = !showDeleteModal" @saveClicked="removeSavedModal" :showSavedModal="showSavedModal"/>
 
       <div class="editor_tabs">
         <div class="showToggle" @click="showPreview = !showPreview">
@@ -14,6 +14,7 @@
       </div>
     </div>
     <DeleteModal :showDeleteModal="showDeleteModal" @closeDeleteModal="showDeleteModal = !showDeleteModal" />
+    <SavedModal v-if="showSavedModal" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import { ref } from '@vue/reactivity';
 import HeaderNav from "./components/HeaderNav.vue";
 import SideBar from "./components/SideBar.vue";
 import DeleteModal from "./components/DeleteModal.vue";
+import SavedModal from "./components/SavedModal.vue";
 export default {
   name: 'App',
   components: {
@@ -31,17 +33,26 @@ export default {
     MarkdownInput,
     HeaderNav,
     SideBar,
-    DeleteModal
+    DeleteModal,
+    SavedModal
 },
   setup(){
     const isClosed = ref(true);
     const showPreview = ref(false);
     const showDeleteModal = ref(false);
+    const showSavedModal = ref(false);
+
+    function removeSavedModal(){
+      showSavedModal.value = true;
+      setTimeout(()=> showSavedModal.value= false, 5000)
+    }
 
     return{
       isClosed,
       showPreview,
-      showDeleteModal
+      showDeleteModal,
+      showSavedModal,
+      removeSavedModal
     }
   }
   
