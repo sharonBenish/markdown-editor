@@ -1,6 +1,6 @@
 <template>
   <div id="page">
-    <SideBar :isClosed="isClosed" />
+    <SideBar :isClosed="isClosed" @deleteClicked="showDeleteModal = !showDeleteModal" />
     <div class="main">
       <HeaderNav :isClosed="isClosed" @clicked="isClosed = !isClosed" @deleteClicked="showDeleteModal = !showDeleteModal" @saveClicked="removeSavedModal" :showSavedModal="showSavedModal"/>
 
@@ -26,6 +26,8 @@ import HeaderNav from "./components/HeaderNav.vue";
 import SideBar from "./components/SideBar.vue";
 import DeleteModal from "./components/DeleteModal.vue";
 import SavedModal from "./components/SavedModal.vue";
+import { useStore } from 'vuex';
+import { onBeforeMount } from '@vue/runtime-core';
 export default {
   name: 'App',
   components: {
@@ -46,6 +48,11 @@ export default {
       showSavedModal.value = true;
       setTimeout(()=> showSavedModal.value= false, 5000)
     }
+
+    const store= useStore();
+    onBeforeMount(()=>{
+      store.commit('initialiseDocuments')
+    })
 
     return{
       isClosed,

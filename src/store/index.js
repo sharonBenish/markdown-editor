@@ -19,6 +19,7 @@ export default createStore({
   mutations: {
     SET_CURRENT_DOCUMENT(state,payload){
       state.currentDocument.content = payload
+      localStorage.setItem('documents', JSON.stringify(state.documents))
     },
     toggleDarkMode(state){
       state.lightMode = !state.lightMode
@@ -37,6 +38,7 @@ export default createStore({
       }
       state.documents.unshift(newDocument);
       state.currentDocument= newDocument;
+      localStorage.setItem('documents', JSON.stringify(state.documents))
       //console.log(state.documents)
     },
     saveDocument(state){
@@ -46,16 +48,29 @@ export default createStore({
         state.currentDocument.id= Date.now();
         state.currentDocument.createdAt = date.toLocaleDateString();
         state.documents.unshift(state.currentDocument)
+        localStorage.setItem('documents', JSON.stringify(state.documents))
       }
     },
     deleteDocument(state){
       const deleteIdx = state.documents.findIndex(document => document.id == state.currentDocument.id);
       state.documents.splice(deleteIdx,1);
-      state.currentDocument = state.documents[0];
+      localStorage.setItem('documents', JSON.stringify(state.documents))
+      if (state.documents >= 1){
+        state.currentDocument = state.documents[0];
+      } else{
+        state.currentDocument = {
+          name:'New Document',
+          createdAt:'',
+          content:"",
+          id:0,
+        }
+      }
+      
     },
     changeDocumentName(state, payload){
       const currDoc = state.documents.find(document => document.id == state.currentDocument.id);
       currDoc.name = payload;
+      localStorage.setItem('documents', JSON.stringify(state.documents))
       //state.currentDocument.name = payload;
       //state.documents.find(document => document.id == state.currentDocument.id) = state.currentDocument;
       //currDoc = state.currentDocument;
@@ -65,7 +80,15 @@ export default createStore({
        state.currentDocument = selectedDocument;
        //console.log(state.currentDocument);
        //console.log('documents', state.documents)
-    }
+    },
+    initialiseDocuments(state){
+      state.documents = JSON.parse(localStorage.getItem('documents'))||[];
+      if (state.documents.length > 0){
+        console.log("not empty")
+        state.currentDocument = state.documents[0];
+        //console.log(state.currentDocument.value)
+      }
+    },
   },
   actions: {
   },
