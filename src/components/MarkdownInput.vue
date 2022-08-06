@@ -6,14 +6,20 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 export default {
     props:['show'],
     setup(){
         const store = useStore();
+        const currentDocument = computed(()=> store.state.currentDocument.content)
+        console.log(currentDocument)
         const lightMode = computed(()=> store.state.lightMode)
-        const markdownInput = ref('')
+        const markdownInput = ref('');
+        watch(currentDocument, (newValue, oldValue)=>{
+          console.log(newValue, oldValue);
+          markdownInput.value = currentDocument.value;
+        })
         function setCurrentDocument(){
           store.commit('SET_CURRENT_DOCUMENT', markdownInput.value)
         }

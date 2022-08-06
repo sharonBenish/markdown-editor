@@ -9,15 +9,28 @@
           <div class="modal_body">
             Are you sure youu want to delete the <i>'welcome'</i> document and its contents? This cannot be reversed.
           </div>
-          <button>Confirm & Delete</button>
+          <button @click="deleteDocument">Confirm & Delete</button>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
 export default {
-    props:['showDeleteModal']
+    emits:['closeDeleteModal'],
+    props:['showDeleteModal'],
+    setup(props, {emit}){
+      const store = useStore();
+      function deleteDocument(){
+        store.commit('deleteDocument');
+        emit('closeDeleteModal')
+      }
+
+      return{
+        deleteDocument,
+      }
+    }
 
 }
 </script>

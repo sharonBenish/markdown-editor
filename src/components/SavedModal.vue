@@ -3,10 +3,10 @@
     <div class="saved-modal-content">
         <div class="saved-modal-body">
             <p>Your changes have been saved. You can download the file by clicking the link below.</p>
-            <img src="../assets/modal-close.svg" alt="">
+            <img src="../assets/modal-close.svg" alt=""  @click="$emit('closeSavedModal')">
         </div>
-        <button>
-            <img src="../assets/icon-document.svg" alt="">
+        <button @click="downloadTxtFile">
+            <img src="../assets/icon-document.svg" alt="" >
             <span>Download the file</span>
         </button>
     </div>
@@ -14,17 +14,37 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 export default {
-    setup(){
-        const elementVisible = ref(true)
-        onMounted(()=>{
-            setTimeout(()=> elementVisible.value = false, 5000)
+setup(){
+    const store = useStore();
+    const elementVisible = ref(true);
+    onMounted(()=>{
+        setTimeout(()=> elementVisible.value = false, 5000)
+    });
+    const currentDocument = computed(()=> store.state.currentDocument).value;
+    const docContent = currentDocument.content;
+    const docName = currentDocument.name;
+    // add .md to docName
+    const docNameWithExtension = `${docName}.md`;
+    const downloadTxtFile = () => {
+        console.log('download', docNameWithExtension)
+        const element = document.createElement('a')
+        const file = new Blob([docContent],{
+            type: 'text/markdown',
         })
-        return{
-            elementVisible,
-        }
+        element.href = URL.createObjectURL(file)
+        element.download = docNameWithExtension
+        document.body.appendChild(element)
+        element.click()
     }
+
+    return{
+        elementVisible,
+        downloadTxtFile,
+    }
+}
 
 }
 </script>

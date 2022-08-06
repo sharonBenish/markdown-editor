@@ -10,13 +10,13 @@
             <img src="../assets/icon-document.svg" alt="">
             <div class="name_input_field">
               <label for="documentName">Document Name</label>
-              <input id="documentName" v-model="documentName" />
+              <input id="documentName" v-model="documentName" @input="changeDocumentName" />
             </div>
           </div>
         </div>
         <div class="right_side_nav">
           <div class="delete" @click="$emit('deleteClicked')"><img src="../assets/icon-delete.svg" alt=""></div>
-          <div class="save" @click="$emit('saveClicked')">
+          <div class="save" @click="saveDocument">
             <div v-if="!showSavedModal">
               <img src="../assets/icon-save.svg" alt="">
               <span>Save Changes</span>
@@ -31,15 +31,43 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+//import { emit } from 'process';
+import { ref, watch } from 'vue';
+import { computed} from 'vue';
+import { useStore } from 'vuex';
 export default {
     props:['isClosed', 'showSavedModal'],
-    setup(){
-    const documentName = ref("New Document");
+    emits: ['saveClicked', 'deleteClicked', 'clicked'],
+    setup(props,{emit}){
+      const store = useStore();
+      const document = computed(()=> store.state.currentDocument.name);
+      //console.log(document.value);
+      const documentName = ref("New Document");
+      documentName.value = document.value
+      watch(document,(newValue, oldValue)=>{
+        documentName.value = document.value
+        console.log(newValue, oldValue)
+      })
+      //onMounted(()=> documentName.value = document.value);
+      //documentName.value = store.state.currentDocument.name;
+      //documentName.value = document;
+      function changeDocumentName(){
+        store.commit('changeDocumentName', documentName.value)
+      }
+      function saveDocument(){
+        store.commit('saveDocument');
+        emit('saveClicked')
+      }
+      function deleteDocument(){
+        store.commit('deleteDocument')
+      }
 
-    return{
-      documentName,
-    }
+      return{
+        documentName,
+        changeDocumentName,
+        saveDocument,
+        deleteDocument,
+      }
   }
   
 }

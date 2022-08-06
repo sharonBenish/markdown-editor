@@ -1,13 +1,28 @@
 <template>
-    <div class="document">
-        <span class="document_date">April 5, 2022</span>
-        <span class="document_name">README</span>
+    <div class="document" @click="selectCurrentDocument" :class="document.id == currentDocumentId? 'selected' :''">
+        <span class="document_date">{{document.createdAt}}</span>
+        <span class="document_name">{{document.name}}</span>
     </div>
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core';
+import { useStore } from 'vuex'
 export default {
-
+  props:['document'],
+  setup(props){
+    const store = useStore();
+    const currentDocumentId = computed(()=> store.state.currentDocument.id)
+    function selectCurrentDocument(){
+      store.commit('selectCurrentDocument', props.document.id)
+      //console.log(props.document.id)
+    }
+    
+    return{
+      selectCurrentDocument,
+      currentDocumentId
+    }
+  }
 }
 </script>
 
@@ -16,9 +31,18 @@ export default {
   display:flex;
   flex-direction: column;
   width:100%;
-  padding:1rem;
-  border:1px solid gray;
+  padding:0.6rem;
   align-items:center;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.document.selected{
+  background: var(--color-700);
+}
+
+.document:hover{
+  background: var(--color-800);
 }
 .document_date{
   color: var(--color-500);

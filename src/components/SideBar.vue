@@ -5,9 +5,9 @@
       </div>
       <div class="documents">
         <h3>MY DOCUMENTS</h3>
-        <button>+ New Document</button>
+        <button @click="addNewDocument">+ New Document</button>
         <div class="document_list">
-          <DocumentComponent />
+          <DocumentComponent v-for="(document, index) in documents" :key="index" :document="document" />
         </div>
         <div class="modeToggle">
           <LightDarkMode />
@@ -19,9 +19,21 @@
 <script>
 import DocumentComponent from './DocumentComponent.vue';
 import LightDarkMode from './LightDarkMode.vue';
+import { useStore } from 'vuex';
 export default {
     props: ["isClosed"],
-    components: { DocumentComponent, LightDarkMode }
+    components: { DocumentComponent, LightDarkMode },
+    setup(){
+      const store = useStore();
+      const documents = store.state.documents;
+      function addNewDocument(){
+        store.commit('addNewDocument')
+      }
+      return{
+        documents,
+        addNewDocument,
+      }
+    }
 }
 </script>
 

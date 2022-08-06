@@ -14,7 +14,7 @@
       </div>
     </div>
     <DeleteModal :showDeleteModal="showDeleteModal" @closeDeleteModal="showDeleteModal = !showDeleteModal" />
-    <SavedModal v-if="showSavedModal" />
+    <SavedModal v-if="showSavedModal" @closeSavedModal="showSavedModal= false" />
   </div>
 </template>
 
