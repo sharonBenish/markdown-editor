@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="right_side_nav">
-          <div class="delete" @click="$emit('deleteClicked')"><img src="../assets/icon-delete.svg" alt=""></div>
+          <DeleteButton @clicked="$emit('deleteClicked')" />
           <div class="save" @click="saveDocument">
             <div v-if="!showSavedModal">
               <img src="../assets/icon-save.svg" alt="">
@@ -35,41 +35,37 @@
 import { ref, watch } from 'vue';
 import { computed} from 'vue';
 import { useStore } from 'vuex';
+import DeleteButton from './DeleteButton.vue';
 export default {
-    props:['isClosed', 'showSavedModal'],
-    emits: ['saveClicked', 'deleteClicked', 'clicked'],
-    setup(props,{emit}){
-      const store = useStore();
-      const document = computed(()=> store.state.currentDocument.name);
-      //console.log(document.value);
-      const documentName = ref("New Document");
-      documentName.value = document.value
-      watch(document,(newValue, oldValue)=>{
-        documentName.value = document.value
-        console.log(newValue, oldValue)
-      })
-      //onMounted(()=> documentName.value = document.value);
-      //documentName.value = store.state.currentDocument.name;
-      //documentName.value = document;
-      function changeDocumentName(){
-        store.commit('changeDocumentName', documentName.value)
-      }
-      function saveDocument(){
-        store.commit('saveDocument');
-        emit('saveClicked')
-      }
-      function deleteDocument(){
-        store.commit('deleteDocument')
-      }
-
-      return{
-        documentName,
-        changeDocumentName,
-        saveDocument,
-        deleteDocument,
-      }
-  }
-  
+    props: ["isClosed", "showSavedModal"],
+    emits: ["saveClicked", "deleteClicked", "clicked"],
+    setup(props, { emit }) {
+        const store = useStore();
+        const document = computed(() => store.state.currentDocument.name);
+        //console.log(document.value);
+        const documentName = ref("New Document");
+        documentName.value = document.value;
+        watch(document, () => {
+            documentName.value = document.value;
+            //console.log(newValue, oldValue)
+        });
+        //onMounted(()=> documentName.value = document.value);
+        //documentName.value = store.state.currentDocument.name;
+        //documentName.value = document;
+        function changeDocumentName() {
+            store.commit("changeDocumentName", documentName.value);
+        }
+        function saveDocument() {
+            store.commit("saveDocument");
+            emit("saveClicked");
+        }
+        return {
+            documentName,
+            changeDocumentName,
+            saveDocument,
+        };
+    },
+    components: { DeleteButton }
 }
 </script>
 

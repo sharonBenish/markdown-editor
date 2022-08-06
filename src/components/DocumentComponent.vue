@@ -1,15 +1,22 @@
 <template>
     <div class="document" @click="selectCurrentDocument" :class="document.id == currentDocumentId? 'selected' :''">
-        <span class="document_date">{{document.createdAt}}</span>
-        <span class="document_name">{{document.name}}</span>
+      <img src="../assets/icon-document.svg" alt="">
+      <DeleteButton @clicked="$emit('deleteCompClicked')" />
+        <div>
+          <span class="document_date">{{document.createdAt}}</span>
+          <span class="document_name">{{document.name}}</span>
+        </div>
     </div>
 </template>
 
 <script>
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex'
+import DeleteButton from './DeleteButton.vue';
 export default {
+  components: { DeleteButton },
   props:['document'],
+  emits:['deleteCompClicked'],
   setup(props){
     const store = useStore();
     const currentDocumentId = computed(()=> store.state.currentDocument.id)
@@ -28,13 +35,32 @@ export default {
 
 <style scoped>
 .document{
-  display:flex;
-  flex-direction: column;
+  display: flex;
   width:100%;
   padding:0.6rem;
-  align-items:center;
   border-radius: 4px;
   margin-bottom: 1rem;
+  justify-content: center;
+  align-items: center;
+  gap:10px;
+}
+.document > img + div{
+  display: none;
+}
+.document > img + div{
+  width:15px !important;
+  height:15px !important;
+}
+.document > img:hover{
+  display: none;
+}
+.document > img:hover + div{
+  display: block;
+}
+.document> div{
+  display:flex;
+  flex-direction: column;
+  
 }
 
 .document.selected{

@@ -7,7 +7,7 @@
         <h3>MY DOCUMENTS</h3>
         <button @click="addNewDocument">+ New Document</button>
         <div class="document_list">
-          <DocumentComponent v-for="(document, index) in documents" :key="index" :document="document" />
+          <DocumentComponent v-for="(document, index) in documents" :key="index" :document="document" @deleteCompClicked="$emit('deleteClicked')" />
         </div>
         <div class="modeToggle">
           <LightDarkMode />
@@ -22,6 +22,7 @@ import LightDarkMode from './LightDarkMode.vue';
 import { useStore } from 'vuex';
 export default {
     props: ["isClosed"],
+    emits:['deleteClicked'],
     components: { DocumentComponent, LightDarkMode },
     setup(){
       const store = useStore();

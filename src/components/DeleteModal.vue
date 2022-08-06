@@ -7,7 +7,7 @@
             <img src="../assets/modal-close.svg" alt="" @click="$emit('closeDeleteModal')">
           </div>
           <div class="modal_body">
-            Are you sure youu want to delete the <i>'welcome'</i> document and its contents? This cannot be reversed.
+            Are you sure you want to delete the <i>'{{currentDocumentName}}'</i> document and its contents? This cannot be reversed.
           </div>
           <button @click="deleteDocument">Confirm & Delete</button>
         </div>
@@ -16,18 +16,21 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex'
 export default {
     emits:['closeDeleteModal'],
     props:['showDeleteModal'],
     setup(props, {emit}){
       const store = useStore();
+      const currentDocumentName = computed(()=> store.state.currentDocument.name).value
       function deleteDocument(){
         store.commit('deleteDocument');
         emit('closeDeleteModal')
       }
 
       return{
+        currentDocumentName,
         deleteDocument,
       }
     }
