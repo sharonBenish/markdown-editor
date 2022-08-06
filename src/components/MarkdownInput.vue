@@ -16,6 +16,7 @@ export default {
         console.log(currentDocument)
         const lightMode = computed(()=> store.state.lightMode)
         const markdownInput = ref('');
+        markdownInput.value = currentDocument.value
         watch(currentDocument, ()=>{
           //console.log(newValue, oldValue);
           markdownInput.value = currentDocument.value;
