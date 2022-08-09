@@ -71,27 +71,17 @@ export default createStore({
       const currDoc = state.documents.find(document => document.id == state.currentDocument.id);
       currDoc.name = payload;
       localStorage.setItem('documents', JSON.stringify(state.documents))
-      //state.currentDocument.name = payload;
-      //state.documents.find(document => document.id == state.currentDocument.id) = state.currentDocument;
-      //currDoc = state.currentDocument;
     },
     selectCurrentDocument(state, payload){
        const selectedDocument = state.documents.find( document => document.id == payload);
        state.currentDocument = selectedDocument;
-       //console.log(state.currentDocument);
-       //console.log('documents', state.documents)
     },
     initialiseDocuments(state){
       state.documents = JSON.parse(localStorage.getItem('documents'))||[];
       if (state.documents.length > 0){
         console.log("not empty")
         state.currentDocument = state.documents[0];
-        //console.log(state.currentDocument.value)
       }
     },
   },
-  actions: {
-  },
-  modules: {
-  }
 })
